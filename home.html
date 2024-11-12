@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Sports Social Media</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="homepage-body">
+    <nav class="homepage-nav">
+        <a href="{{ url_for('home') }}" class="nav-link">Sports Social</a>
+        <a href="{{ url_for('posts') }}" class="nav-link">Profile</a>
+        <a href="{{ url_for('explore') }}" class="nav-link">Explore</a>
+        <a href="{{ url_for('tournaments_page') }}" class="nav-link">Tournaments</a>
+        <a href="{{ url_for('stats') }}" class="nav-link">Stats</a>
+        <a href="{{ url_for('terms') }}" class="nav-link">Terms</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+    </nav>
+
+    <div class="container homepage-container">
+        <h1 class="title">Welcome to Sports Social Media!</h1>
+        <p class="animated-text" id="animated-text">Connect with sports enthusiasts, join tournaments, track stats, and more!</p>
+        
+        <!-- New div for the image -->
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='Preview.png') }}" alt="Sports Social" class="main-image">
+        </div>
+    </div>
+    
+    <footer class="homepage-footer">
+        <p>&copy; 2024 Sports Social Media. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for letter-by-letter animation with bounce effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const textElement = document.getElementById('animated-text');
+            const text = textElement.innerHTML;
+            textElement.innerHTML = '';
+
+            let index = 0;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    textElement.innerHTML += text[index];
+                    index++;
+                    setTimeout(typeWriter, 50); // Adjust the speed of letter appearance
+                } else {
+                    // Once typing finishes, apply the bounce animation
+                    textElement.classList.add('bounce');
+                }
+            }
+
+            typeWriter();
+        });
+    </script>
+</body>
+</html>

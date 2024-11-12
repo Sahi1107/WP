@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments - Sports Social Media</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('posts') }}">Profile</a>
+        <a href="{{ url_for('explore') }}">Explore</a>
+        <a href="{{ url_for('tournaments_page') }}">Tournaments</a>
+        <a href="{{ url_for('stats') }}">Stats</a>
+        <a href="{{ url_for('terms') }}">Terms</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="container">
+        <!-- Main Heading -->
+        <h1>Upcoming Tournaments</h1>
+        
+        <!-- Filters and Results Layout -->
+        <div class="filters-and-results">
+            <!-- Filters Section (Left) -->
+            <div class="filters">
+                <form method="POST">
+                    <label for="sport">Sport:</label>
+                    <select name="sport" id="sport">
+                        <option value="all">All</option>
+                        <option value="football">Football</option>
+                        <option value="basketball">Basketball</option>
+                        <option value="tennis">Tennis</option>
+                    </select>
+
+                    <label for="region">Region:</label>
+                    <select name="region" id="region">
+                        <option value="all">All</option>
+                        <option value="north-america">North America</option>
+                        <option value="europe">Europe</option>
+                        <option value="asia">Asia</option>
+                    </select>
+
+                    <label for="date">Date:</label>
+                    <input type="date" name="date">
+
+                    <button type="submit">Filter</button>
+                </form>
+            </div>
+
+            <!-- Results Section (Right) -->
+            <div class="results">
+                <div class="tournament-list">
+                    {% for tournament in tournaments %}
+                        <div class="tournament">
+                            <h2>{{ tournament.name }}</h2>
+                            <p>Date: {{ tournament.date }}</p>
+                            <p>Location: {{ tournament.location }}</p>
+                        </div>
+                    {% else %}
+                        <p>No tournaments found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sports Social Media. All rights reserved.</p>
+    </footer>
+</body>
+</html>

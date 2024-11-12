@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions - Sports Social Media</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('posts') }}">Profile</a>
+        <a href="{{ url_for('explore') }}">Explore</a>
+        <a href="{{ url_for('tournaments_page') }}">Tournaments</a>
+        <a href="{{ url_for('stats') }}">Stats</a>
+        <a href="{{ url_for('terms') }}">Terms</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="container">
+        <h1>Terms and Conditions</h1>
+        <p>Welcome to Sports Social Media! By using our platform, you agree to the following terms...</p>
+        <!-- Add the actual terms and conditions content here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sports Social Media. All rights reserved.</p>
+    </footer>
+</body>
+</html>

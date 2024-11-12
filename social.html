@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Social Media</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+
+        nav {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-right-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right-icons i {
+            margin-left: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            background-color: #fff;
+            width: 20%;
+            padding: 1.5rem;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 0.5rem 0;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+
+        .content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: calc(100vh - 120px);
+            position: relative;
+        }
+
+        .profile-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post img,
+        .post video {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .post .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .post .caption {
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+
+        .post .likes {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .post .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .post .actions button {
+            background-color: transparent;
+            border: none;
+            color: #f44336;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .post .actions button:hover {
+            color: #c0392b;
+        }
+
+        .right-sidebar {
+            background-color: #fff;
+            width: 20%;
+            padding: 1.5rem;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestions {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .suggestion-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .suggestion-item img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f2f5;
+        }
+
+        .follow-btn {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .follow-btn.following {
+            background-color: green;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-content button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #c0392b;
+        }
+
+        #create-post-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #create-post-button:hover {
+            background-color: #c0392b;
+        }
+
+        .toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="static/Preview.png" alt="Logo" style="width: 70px; height: 70px; margin-right: 10px;">
+            Sports Social
+        </div>
+        <div class="nav-right-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('explore') }}">Explore</a>
+            <a href="{{ url_for('tournaments_page') }}">Tournaments</a>
+            <a href="{{ url_for('stats') }}">Stats</a>
+            <a href="{{ url_for('terms') }}">Terms</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+
+        <div class="content">
+            <div class="profile-section">
+                <div class="profile-info">
+                    <img src="https://via.placeholder.com/50" alt="Profile">
+                    <span style="font-weight: bold;">{{ current_user.username }}</span>
+                </div>
+            </div>
+
+            <button id="create-post-button">+</button>
+
+            <div class="modal" id="post-modal">
+                <div class="modal-content">
+                    <span class="close" id="close-modal">&times;</span>
+                    <h2>Create New Post</h2>
+                    <form method="POST" enctype="multipart/form-data">
+                        <label for="media">Upload Media (Image/Video):</label>
+                        <input type="file" name="media" id="media" accept="image/*,video/*" required>
+                        <label for="caption">Caption:</label>
+                        <input type="text" name="caption" id="caption" placeholder="Write a caption..." required>
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
+
+            <h2>
+                <button id="toggle-posts" onclick="togglePosts()">Your Posts</button>
+            </h2>
+            <div id="posts-container">
+                {% for post in posts %}
+                    <div class="post">
+                        <p class="username">{{ post.username }}</p>
+                        {% if post.media %}
+                            {% if post.media.media_type == 'image' %}
+                                <img src="{{ url_for('media', media_id=post.media_id) }}" alt="media">
+                            {% elif post.media.media_type == 'video' %}
+                                <video controls>
+                                    <source src="{{ url_for('media', media_id=post.media_id) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% endif %}
+                        {% endif %}
+                        <p class="caption">{{ post.caption }}</p>
+                        <p class="likes" id="likes-count-{{ post.id }}">{{ post.likes }} Likes</p>
+                        <p class="date-time">{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+
+                        <div class="actions">
+                            <button onclick="toggleLike({{ post.id }})" id="like-btn-{{ post.id }}" class="like-btn" data-liked="{{ post.id in liked_post_ids }}">
+                                {{ 'Dislike' if post.id in liked_post_ids else 'Like' }}
+                            </button>
+                            <button onclick="location.href='{{ url_for('share_post', post_id=post.id) }}'">Share</button>
+                            <button class="comment-button" onclick="openComments({{ post.id }})">Comments</button>
+                            {% if post.user_id == current_user.id %}
+                                <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display:inline;">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            {% endif %}
+                        </div>
+
+                        <div class="modal" id="comments-modal-{{ post.id }}" style="display:none;">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeComments({{ post.id }})">&times;</span>
+                                <h3>Comments for Post by {{ post.username }}</h3>
+                                <div class="comments" id="comments-list-{{ post.id }}">
+                                    {% for comment in post.comments %}
+                                    <p><strong>{{ comment.user.username }}</strong>: {{ comment.comment_text }}</p>
+                                    {% endfor %}
+                                    <!-- Empty if no comments, do not show "No comments yet" -->
+                                </div>
+                                <form method="POST" action="{{ url_for('comment_post', post_id=post.id) }}" onsubmit="return addComment(event, {{ post.id }})">
+                                    <input type="text" name="comment" placeholder="Add a comment..." required>
+                                    <button type="submit">Comment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No posts available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <h3 style="text-align: center;">Suggestions</h3>
+            <div class="suggestions">
+                <div class="suggestion-item">
+                    <img src="https://via.placeholder.com/40" alt="Suggestion">
+                    <span>Player 1</span>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="suggestion-item">
+                    <img src="https://via.placeholder.com/40" alt="Suggestion">
+                    <span>Player 2</span>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="suggestion-item">
+                    <img src="https://via.placeholder.com/40" alt="Suggestion">
+                    <span>Player 3</span>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">Customer Service</a>
+            <a href="#">FAQs</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2024 Sports Social Media. All rights reserved.</p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Toggle Posts
+        function togglePosts() {
+            const toggleButton = document.getElementById('toggle-posts');
+            const isUserPosts = toggleButton.innerText === 'Your Posts';
+
+            if (isUserPosts) {
+                toggleButton.innerText = 'All Posts';
+                window.location.href = "{{ url_for('posts', my_posts='false') }}";
+            } else {
+                toggleButton.innerText = 'Your Posts';
+                window.location.href = "{{ url_for('posts', my_posts='true') }}";
+            }
+        }
+
+        // Show Post Modal
+        document.getElementById('create-post-button').onclick = function() {
+            document.getElementById('post-modal').style.display = 'block';
+        }
+
+        // Close Post Modal
+        document.getElementById('close-modal').onclick = function() {
+            document.getElementById('post-modal').style.display = 'none';
+        }
+
+        // Open Comments Modal
+        function openComments(postId) {
+            document.getElementById('comments-modal-' + postId).style.display = 'block';
+        }
+
+        // Close Comments Modal
+        function closeComments(postId) {
+            document.getElementById('comments-modal-' + postId).style.display = 'none';
+        }
+
+        // Add Comment
+        function addComment(event, postId) {
+            event.preventDefault();
+            const form = event.target;
+            const commentText = form.comment.value;
+
+            fetch(`/comment_post/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ comment: commentText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const commentElement = document.createElement('p');
+                commentElement.innerHTML = `<strong>${data.username}</strong>: ${data.comment_text}`;
+                document.getElementById('comments-list-' + postId).appendChild(commentElement);
+                form.comment.value = ''; // Clear input
+            })
+            .catch(error => console.error('Error:', error));
+
+            return false;  // Prevent default form submission behavior
+        }
+
+        // Toggle Like
+        function toggleLike(postId) {
+            const likeButton = document.getElementById('like-btn-' + postId);
+            const liked = likeButton.getAttribute('data-liked') === 'true';
+
+            const action = liked ? 'dislike' : 'like';  // Determine the action (like or dislike)
+
+            fetch(`/like_post/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likesCountElement = document.getElementById('likes-count-' + postId);
+                likesCountElement.innerText = `${data.likes} Likes`;
+                likeButton.innerText = liked ? 'Like' : 'Dislike';
+                likeButton.setAttribute('data-liked', !liked);
+            })
+            .catch(error => console.error('Error:', error));
+
+            showToast(liked ? 'You disliked the post!' : 'You liked the post!');
+        }
+
+
+        // Show Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.opacity = 1;
+            setTimeout(() => {
+                toast.style.opacity = 0;
+            }, 2000);
+        }
+
+        // Handle Follow/Unfollow logic
+        const followButtons = document.querySelectorAll('.follow-btn');
+        followButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.classList.contains('following')) {
+                    button.classList.remove('following');
+                    button.innerText = 'Follow';
+                    button.style.backgroundColor = '#f44336';
+                    showToast('Unfollowed ' + button.previousElementSibling.innerText);
+                } else {
+                    button.classList.add('following');
+                    button.innerText = 'Following';
+                    button.style.backgroundColor = 'green';
+                    showToast('You are now following ' + button.previousElementSibling.innerText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
