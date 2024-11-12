@@ -1,0 +1,71 @@
+/* Header and Navigation */
+header {
+    background-color: var(--color-bg1);
+    padding: 1rem 0;
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-links a {
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--color-bg2);
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--color-bg2);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.lojo {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Content Section */
+.content {
+    padding: 4rem 0;
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-bg1);
+    padding: 2rem 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--color-bg2);
+}
+
+.copyright {
+    text-align: center;
+    font-size: 0.8rem;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts - Sports Social Media</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('social') }}">Profile</a>
+        <a href="{{ url_for('explore') }}">Explore</a>
+        <a href="{{ url_for('tournaments_page') }}">Tournaments</a>
+        <a href="{{ url_for('stats') }}">Stats</a>
+        <a href="{{ url_for('terms') }}">Terms</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="container">
+        <h1>My Posts</h1>
+        <!-- Form to create a new post -->
+        <form method="POST" enctype="multipart/form-data">
+            <label for="media">Upload Media (Image/Video):</label>
+            <input type="file" name="media" id="media" accept="image/*,video/*" required>
+
+            <label for="caption">Caption:</label>
+            <input type="text" name="caption" id="caption" placeholder="Write a caption...">
+
+            <button type="submit">Post</button>
+        </form>
+
+        <!-- Display user's posts -->
+        <h2>Your Posts</h2>
+        {% for post in posts %}
+            <div class="post">
+                <p><strong>{{ post.username }}</strong> ({{ post.date_posted.strftime('%Y-%m-%d %H:%M') }})</p>
+                <p>{{ post.caption }}</p>
+
+                <!-- Fetch the media related to the post -->
+                {% if post.media %}
+                    {% if post.media.media_type == 'image' %}
+                        <img src="{{ url_for('media', media_id=post.media_id) }}" alt="media" width="300">
+                    {% elif post.media.media_type == 'video' %}
+                        <video controls width="300">
+                            <source src="{{ url_for('media', media_id=post.media_id) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                {% else %}
+                    <p>No media available for this post.</p>
+                {% endif %}
+
+                <p>Likes: {{ post.likes }} | Shares: {{ post.shares }}</p>
+
+                <!-- Like, Share, and Comment options -->
+                <a href="{{ url_for('like_post', post_id=post.id) }}">Like</a> |
+                <a href="{{ url_for('share_post', post_id=post.id) }}">Share</a>
+
+                <!-- Delete Post Button -->
+                <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+
+                <!-- Comment section -->
+                <form method="POST" action="{{ url_for('comment_post', post_id=post.id) }}">
+                    <input type="text" name="comment" placeholder="Add a comment..." required>
+                    <button type="submit">Comment</button>
+                </form>
+
+                <div class="comments">
+                    <h4>Comments:</h4>
+                    {% for comment in post.comments %}
+                        <p><strong>{{ comment.user.username }}</strong>: {{ comment.comment_text }}</p>
+                    {% else %}
+                        <p>No comments yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <p>No posts available.</p>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sports Social Media. All rights reserved.</p>
+    </footer>
+</body>
+</html>
